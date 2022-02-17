@@ -20,6 +20,7 @@ $(document).ready(function(){
                     console.log(cart)
                 }
              }
+             display(cart);
 
         });
         $(productdiv).append(img);
@@ -29,7 +30,16 @@ $(document).ready(function(){
         $('#products').append(productdiv);
    
     })
-    $('button').click(function () { 
+    $('#Upcart').click(function () { 
+        display(cart);
+        
+    });
+    $('#Emcart').click(function () { 
+
+        cart.forEach(function f(el,index,arr){
+            el.quantity=0;
+            console.log(cart);
+        });
         display(cart);
         
     });
