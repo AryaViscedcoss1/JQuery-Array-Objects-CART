@@ -47,56 +47,75 @@ $(document).ready(function(){
  
   });
 
-function display(array)
-{   
-    
-    $('#cart').empty();
-    //header of table
-    var table=$('<table></table>')
-    var ID = $("<td></td>").text('ID'); 
-    var Name = $("<td></td>").text('Name'); 
-    var quantity = $("<td></td>").text('quantity'); 
-    var quantityPlus = $("<td></td>").text('quantityPlus'); 
-    var quantityMinus = $("<td></td>").text('quantityMinus');
-    var price = $("<td></td>").text('price'); 
-    var head =$("<tr></tr>").append(ID,Name,quantity,quantityPlus,quantityMinus,price,);
-    $(head).addClass('head');
-    $(table).append(head);
-    
+  function display(array)
+  {   
+      var sum=0;
+      
+      $('#cart').empty();
+      //header of table
+      var table=$('<table></table>')
+      var ID = $("<td></td>").text('ID'); 
+      var Name = $("<td></td>").text('Name'); 
+      var quantity = $("<td></td>").text('quantity'); 
+      var quantityPlus = $("<td></td>").text('quantityPlus'); 
+      var quantityMinus = $("<td></td>").text('quantityMinus');
+      var price = $("<td></td>").text('price'); 
+      var head =$("<tr></tr>").append(ID,Name,quantity,quantityPlus,quantityMinus,price);
+      $(head).addClass('head');
+      $(table).append(head);
+      
    
     //content of table
- array.forEach(function(el,index,array){
-    if (array[index].quantity !=0)
-    {
-        var id = $("<td></td>").text(array[index].id);
-        var name = $("<td></td>").text(array[index].name); 
-        var quantity = $("<td></td>").text(array[index].quantity); 
-        var plus = $("<td></td>").append('<button class="innerbutton">+1 Quantity</button>');
-        $(plus).click(function () { 
-             array[index].quantity=array[index].quantity +1;
-            $(quantity).text(array[index].quantity); 
-            
-        });
-        var minus = $("<td></td>").append('<button class="innerbutton">-1 Quantity</button>');
-        $(minus).click(function () { 
-            if (array[index].quantity==0)
-            {
-                return 
-            }
-            array[index].quantity=array[index].quantity -1;
-            $(quantity).text(array[index].quantity); 
-            
-        });
-        var price = $("<td></td>").text(array[index].price); 
-        var txt =$("<tr></tr>").append(id,name,quantity,plus,minus,price);
-        $(table).append(txt);
-    }
+    array.forEach(function(el,index,array){
+        if (array[index].quantity !=0)
+        {
+            var id = $("<td></td>").text(array[index].id);
+            var name = $("<td></td>").text(array[index].name); 
+            var quantity = $("<td></td>").text(array[index].quantity); 
+            var plus = $("<td></td>").append('<button class="innerbutton">+1 Quantity</button>');
+            var price = $("<td></td>");
+            price.text(array[index].price * array[index].quantity);
+            sum=sum+array[index].price * array[index].quantity;
+            $(plus).click(function () { 
+                sum=sum-array[index].price * array[index].quantity;
+                 array[index].quantity=array[index].quantity +1;
+                 sum=sum+array[index].price * array[index].quantity;
+               
+                $(quantity).text(array[index].quantity); 
+                
+                price.text(array[index].price * array[index].quantity); 
+                $('#total').text("Grand total :"+sum);
+                
+                
+            });
+            var minus = $("<td></td>").append('<button class="innerbutton">-1 Quantity</button>');
+            $(minus).click(function () { 
+                if (array[index].quantity==0)
+                {
+                    return 
+                }
+                sum=sum-array[index].price * array[index].quantity;
+                array[index].quantity=array[index].quantity -1;
+                sum=sum+array[index].price * array[index].quantity;
+              
+                $(quantity).text(array[index].quantity); 
+                price.text(array[index].price * array[index].quantity); 
+                $('#total').text("Grand total :"+sum);
+               
+                
+                
+            });
+           
+            var txt =$("<tr></tr>").append(id,name,quantity,plus,minus,price);
+            $(table).append(txt);
+           
+        }
+        
+       
+     })
+     $('#cart').append(table);
     
-
- 
-   
- })
- $('#cart').append(table);
-}
-
+     $('#total').text("Grand total :"+sum);
+     
+    }
 

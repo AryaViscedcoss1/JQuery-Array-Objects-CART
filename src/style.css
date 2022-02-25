@@ -169,6 +169,10 @@ table, th, td {
 {
 	margin-left: 35%;
 }
+#total
+{
+	margin-left: 35%;
+}
 
 button {
 	background-color: #e00606; /* Green */
